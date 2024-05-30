@@ -9,7 +9,7 @@ app.use(express.json());
 
 //testing source control
 app.get('/', (req, res) => {
-  res.send('This is a test Message Hello!');
+  res.send('Hello World from the Backend!');
 });
 
 // Start the server
