@@ -7,7 +7,7 @@ app.use(express.json());
 
 // Basic route for testing
 app.get('/', (req, res) => {
-  res.send('Hello World from the Backend!');
+  res.send('This is a test!');
 });
 
 // Start the server
