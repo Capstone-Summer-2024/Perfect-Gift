@@ -1,0 +1,20 @@
+.NavBar {
+    background-color: #bbbbbb;
+    padding: 30px 20px;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .HeaderDropdownButton {
+    margin-right: 20px;
+  }
+
+  .HeaderDropdownButton:hover {
+    opacity: 0.4;
+  }
+  
+  .HeaderLoginButton:hover {
+    opacity: 0.4;
+  }
