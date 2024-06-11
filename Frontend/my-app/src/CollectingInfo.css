@@ -7,3 +7,8 @@ div {
   min-width: 300px;
   width: 35%;
 }
+
+button.selected {
+  border: 2px solid blue;
+  background-color: lightblue;
+}
