@@ -1,13 +1,19 @@
-import "./App.css";
-import React from 'react';
-import CollectingInfo from "./CollectingInfo";
+import React from "react";
+import CollectingInfo from "./pages/CollectingInfo";
+import LoginSignup from "./pages/LoginSignup";
+import HomePage from "./pages/HomePage";
+import Navbar from "./components/NavBar";
 
 function App() {
   return (
     <div className="App">
-      <CollectingInfo />
+      {/* <CollectingInfo /> */}
+      <Navbar />
+      <LoginSignup />
+
+      {/* <HomePage /> */}
     </div>
-  )
+  );
 }
 
 export default App;
