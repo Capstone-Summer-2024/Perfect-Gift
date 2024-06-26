@@ -49,22 +49,29 @@
 // export default NavBar;
 
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleSignupClick = () => {
+    navigate("/register-login");  
+  };
+
   return (
     <header className={styles.navbar}>
       <div className={styles.navbarLogo}>
         <h1>PerfectGift</h1>
       </div>
       <nav className={styles.navbarLinks}>
-        <a>Home</a>
-        <a>About</a>
-        <a>Login</a>
-        <a>Signup</a>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <a onClick={handleSignupClick}>Create an Account</a> 
       </nav>
     </header>
   );
 };
 
 export default Navbar;
+

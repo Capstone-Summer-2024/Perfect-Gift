@@ -1,0 +1,15 @@
+# General ignore rules for node_modules and log files
+node_modules/
+*.log
+*.temp
+.DS_Store
+
+# Backend specific ignores
+backend/.env
+
+# Frontend specific ignores
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage
+frontend/build
+frontend/*.local
