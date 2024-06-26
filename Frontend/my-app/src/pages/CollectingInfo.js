@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../components/NavBar.js";
-import "../components/NavBar.js";
+import styles from "./CollectingInfo.module.css";
 
 // Gender Symbols
 import MaleSymbol from "../assets/MaleSymbol.png";
@@ -47,8 +46,7 @@ function CollectingInfo() {
     }
   };
   return (
-    <div className="CollectingInfo">
-      <NavBar />
+    <div className={styles.collectingInfo}>
       <p
         style={{ fontWeight: "bold", fontSize: "50px", marginBottom: "-20px" }}
       >
@@ -80,41 +78,29 @@ function CollectingInfo() {
 function ChooseGender({ gender, setGender }) {
   return (
     <div>
-      <p style={{ fontSize: "xx-large" }}>What does this person identify as?</p>
-      <div className="GenderSelect">
+      <p className={styles.largeText}>What does this person identify as?</p>
+      <div className={styles.genderSelect}>
         <button
-          className={gender === "Male" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={gender === "Male" ? styles.selected : ""}
           onClick={() => setGender("Male")}
         >
-          <img src={MaleSymbol} alt="Male Gender" width="80px" height="150px" />
+          <img src={MaleSymbol} alt="Male Gender" />
           <br />
           Male
         </button>
         <button
-          className={gender === "Female" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={gender === "Female" ? styles.selected : ""}
           onClick={() => setGender("Female")}
         >
-          <img
-            src={FemaleSymbol}
-            alt="Female Gender"
-            width="80px"
-            height="150px"
-          />
+          <img src={FemaleSymbol} alt="Female Gender" />
           <br />
           Female
         </button>
         <button
-          className={gender === "Other" ? "selected" : ""}
+          className={gender === "Other" ? styles.selected : ""}
           onClick={() => setGender("Other")}
         >
-          <img
-            src={OtherGenderSymbol}
-            alt="Other Gender"
-            width="80px"
-            height="150px"
-          />
+          <img src={OtherGenderSymbol} alt="Other Gender" />
           <br />
           Other
         </button>
@@ -126,11 +112,11 @@ function ChooseGender({ gender, setGender }) {
 function ChooseAge({ age, setAge }) {
   return (
     <div>
-      <p style={{ fontSize: "xx-large", paddingTop: "60px" }}>
+      <p className={styles.largeText}>
         What age is the person you're giving this to?
       </p>
       <input
-        className="AgeSelect"
+        className={styles.ageSelect}
         type="range"
         min="1"
         max="100"
@@ -145,76 +131,45 @@ function ChooseAge({ age, setAge }) {
 function ChooseRelation({ relation, setRelation }) {
   return (
     <div>
-      <p style={{ fontSize: "xx-large", paddingTop: "60px" }}>
-        How is this person related to you?
-      </p>
-      <div className="RelationSelect">
+      <p className={styles.largeText}>How is this person related to you?</p>
+      <div className={styles.relationSelect}>
         <button
-          className={relation === "Coworker" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={relation === "Coworker" ? styles.selected : ""}
           onClick={() => setRelation("Coworker")}
         >
-          <img
-            src={CoworkerIcon}
-            alt="Coworker Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={CoworkerIcon} alt="Coworker Button" />
           <br />
           Coworker
         </button>
         <button
-          className={relation === "Family" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={relation === "Family" ? styles.selected : ""}
           onClick={() => setRelation("Family")}
         >
-          <img
-            src={FamilyIcon}
-            alt="Family Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={FamilyIcon} alt="Family Button" />
           <br />
           Family
         </button>
         <button
-          className={relation === "Friends" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={relation === "Friends" ? styles.selected : ""}
           onClick={() => setRelation("Friends")}
         >
-          <img
-            src={FriendsIcon}
-            alt="Friends Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={FriendsIcon} alt="Friends Button" />
           <br />
           Friends
         </button>
         <button
-          className={relation === "Yourself" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={relation === "Yourself" ? styles.selected : ""}
           onClick={() => setRelation("Yourself")}
         >
-          <img
-            src={YourselfIcon}
-            alt="Yourself Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={YourselfIcon} alt="Yourself Button" />
           <br />
           Yourself
         </button>
         <button
-          className={relation === "Significant Other" ? "selected" : ""}
+          className={relation === "Significant Other" ? styles.selected : ""}
           onClick={() => setRelation("Significant Other")}
         >
-          <img
-            src={SOIcon}
-            alt="Significant Other Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={SOIcon} alt="Significant Other Button" />
           <br />
           Significant Other
         </button>
@@ -226,90 +181,55 @@ function ChooseRelation({ relation, setRelation }) {
 function ChooseOccasion({ occasion, setOccasion }) {
   return (
     <div>
-      <p style={{ fontSize: "xx-large", paddingTop: "60px" }}>
+      <p className={styles.largeText}>
         For what occasion are you giving this gift?
       </p>
-      <div className="OccasionSelect">
+      <div className={styles.occasionSelect}>
         <button
-          className={occasion === "Birthday" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={occasion === "Birthday" ? styles.selected : ""}
           onClick={() => setOccasion("Birthday")}
         >
-          <img
-            src={BirthdayIcon}
-            alt="Birthday Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={BirthdayIcon} alt="Birthday Button" />
           <br />
           Birthday
         </button>
         <button
-          className={occasion === "Graduation" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={occasion === "Graduation" ? styles.selected : ""}
           onClick={() => setOccasion("Graduation")}
         >
-          <img
-            src={GraduationIcon}
-            alt="Graduation Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={GraduationIcon} alt="Graduation Button" />
           <br />
           Graduation
         </button>
         <button
-          className={occasion === "Valentine" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={occasion === "Valentine" ? styles.selected : ""}
           onClick={() => setOccasion("Valentine")}
         >
-          <img
-            src={ValentineIcon}
-            alt="Valentine Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={ValentineIcon} alt="Valentine Button" />
           <br />
           Valentine
         </button>
         <button
-          className={occasion === "Because I Want to" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={occasion === "Because I Want to" ? styles.selected : ""}
           onClick={() => setOccasion("Because I Want to")}
         >
-          <img
-            src={BecauseIcon}
-            alt="Because I Want to"
-            width="130px"
-            height="150px"
-          />
+          <img src={BecauseIcon} alt="Because I Want to" />
           <br />
           Because I Want to
         </button>
         <button
-          className={occasion === "Christmas" ? "selected" : ""}
-          style={{ marginRight: "25px" }}
+          className={occasion === "Christmas" ? styles.selected : ""}
           onClick={() => setOccasion("Christmas")}
         >
-          <img
-            src={ChristmasIcon}
-            alt="Christmas Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={ChristmasIcon} alt="Christmas Button" />
           <br />
           Christmas
         </button>
         <button
-          className={occasion === "Other Occasion" ? "selected" : ""}
+          className={occasion === "Other Occasion" ? styles.selected : ""}
           onClick={() => setOccasion("Other Occasion")}
         >
-          <img
-            src={OtherOcIcon}
-            alt="Other Occasion Button"
-            width="130px"
-            height="150px"
-          />
+          <img src={OtherOcIcon} alt="Other Occasion Button" />
           <br />
           Other Occasion
         </button>
