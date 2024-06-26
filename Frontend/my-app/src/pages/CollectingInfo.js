@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import styles from "./CollectingInfo.module.css";
+import { useNavigate } from "react-router-dom";
 
-// Gender Symbols
+// Icons
 import MaleSymbol from "../assets/MaleSymbol.png";
 import FemaleSymbol from "../assets/FemaleSymbol.png";
 import OtherGenderSymbol from "../assets/OtherGenderSymbol.png";
-
-// Relation Icons
 import CoworkerIcon from "../assets/CoworkerIcon.png";
 import FamilyIcon from "../assets/FamilyIcon.png";
 import FriendsIcon from "../assets/FriendsIcon.png";
 import YourselfIcon from "../assets/YourselfIcon.png";
 import SOIcon from "../assets/SOIcon.png";
-
-// Gift Occasion Icons
 import BirthdayIcon from "../assets/BirthdayIcon.png";
 import GraduationIcon from "../assets/GraduationIcon.png";
 import ValentineIcon from "../assets/ValentineIcon.png";
@@ -22,53 +19,68 @@ import ChristmasIcon from "../assets/ChristmasIcon.png";
 import OtherOcIcon from "../assets/OtherOcIcon.png";
 
 function CollectingInfo() {
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState(50);
-  const [relation, setRelation] = useState("");
-  const [occasion, setOccasion] = useState("");
+  const [state, setState] = useState({
+    gender: "",
+    age: 50,
+    relation: "",
+    occasion: "",
+    interests: [],
+    budget: ""
+  });
+
+  const navigate = useNavigate();
+
+  const handleInputChange = (field, value) => {
+    setState(prevState => ({ ...prevState, [field]: value }));
+  };
+
+  const handleInterestChange = (interest) => {
+    const currentInterests = state.interests;
+    const index = currentInterests.indexOf(interest);
+    if (index > -1) {
+      currentInterests.splice(index, 1);
+    } else {
+      currentInterests.push(interest);
+    }
+    setState(prevState => ({ ...prevState, interests: [...currentInterests] }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { gender, age, relation, occasion };
-
     try {
       const response = await fetch("http://localhost:5000/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state)
       });
       const result = await response.json();
-      console.log(result.message);
+      if (response.ok) {
+        navigate('/confirmation', { state: { recommendations: result.recommendations } });
+      } else {
+        console.error("Failed to submit:", result.error);
+      }
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
+  
+
   return (
     <div className={styles.collectingInfo}>
-      <p
-        style={{ fontWeight: "bold", fontSize: "50px", marginBottom: "-20px" }}
-      >
+      <p style={{ fontWeight: "bold", fontSize: "50px", marginBottom: "-20px" }}>
         Welcome to Perfect Gift!
       </p>
-      <p
-        style={{
-          fontWeight: "bold",
-          fontStyle: "italic",
-          fontSize: "x-large",
-          marginBottom: "100px",
-        }}
-      >
-        Here we can help you choose the perfect gift for your significant
-        others, friends, and family!
+      <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: "x-large", marginBottom: "100px" }}>
+        Here we can help you choose the perfect gift for your significant others, friends, and family!
       </p>
 
       <form onSubmit={handleSubmit}>
-        <ChooseGender gender={gender} setGender={setGender} />
-        <ChooseAge age={age} setAge={setAge} />
-        <ChooseRelation relation={relation} setRelation={setRelation} />
-        <ChooseOccasion occasion={occasion} setOccasion={setOccasion} />
+        <ChooseGender gender={state.gender} setGender={(gender) => handleInputChange('gender', gender)} />
+        <ChooseAge age={state.age} setAge={(age) => handleInputChange('age', age)} />
+        <ChooseRelation relation={state.relation} setRelation={(relation) => handleInputChange('relation', relation)} />
+        <ChooseOccasion occasion={state.occasion} setOccasion={(occasion) => handleInputChange('occasion', occasion)} />
+        <ChooseInterests interests={state.interests} handleInterestChange={handleInterestChange} />
+        <ChooseBudget budget={state.budget} setBudget={(budget) => handleInputChange('budget', budget)} />
         <button type="submit">Submit</button>
       </form>
     </div>
@@ -80,29 +92,23 @@ function ChooseGender({ gender, setGender }) {
     <div>
       <p className={styles.largeText}>What does this person identify as?</p>
       <div className={styles.genderSelect}>
-        <button
+        <button type="button" // Prevent default submit action
           className={gender === "Male" ? styles.selected : ""}
-          onClick={() => setGender("Male")}
-        >
+          onClick={() => setGender("Male")}>
           <img src={MaleSymbol} alt="Male Gender" />
-          <br />
-          Male
+          <br /> Male
         </button>
-        <button
+        <button type="button" 
           className={gender === "Female" ? styles.selected : ""}
-          onClick={() => setGender("Female")}
-        >
+          onClick={() => setGender("Female")}>
           <img src={FemaleSymbol} alt="Female Gender" />
-          <br />
-          Female
+          <br /> Female
         </button>
-        <button
+        <button type="button" 
           className={gender === "Other" ? styles.selected : ""}
-          onClick={() => setGender("Other")}
-        >
+          onClick={() => setGender("Other")}>
           <img src={OtherGenderSymbol} alt="Other Gender" />
-          <br />
-          Other
+          <br /> Other
         </button>
       </div>
     </div>
@@ -133,7 +139,7 @@ function ChooseRelation({ relation, setRelation }) {
     <div>
       <p className={styles.largeText}>How is this person related to you?</p>
       <div className={styles.relationSelect}>
-        <button
+        <button type="button"
           className={relation === "Coworker" ? styles.selected : ""}
           onClick={() => setRelation("Coworker")}
         >
@@ -141,7 +147,7 @@ function ChooseRelation({ relation, setRelation }) {
           <br />
           Coworker
         </button>
-        <button
+        <button type="button"
           className={relation === "Family" ? styles.selected : ""}
           onClick={() => setRelation("Family")}
         >
@@ -149,7 +155,7 @@ function ChooseRelation({ relation, setRelation }) {
           <br />
           Family
         </button>
-        <button
+        <button type="button"
           className={relation === "Friends" ? styles.selected : ""}
           onClick={() => setRelation("Friends")}
         >
@@ -157,7 +163,7 @@ function ChooseRelation({ relation, setRelation }) {
           <br />
           Friends
         </button>
-        <button
+        <button type="button"
           className={relation === "Yourself" ? styles.selected : ""}
           onClick={() => setRelation("Yourself")}
         >
@@ -165,7 +171,7 @@ function ChooseRelation({ relation, setRelation }) {
           <br />
           Yourself
         </button>
-        <button
+        <button type="button"
           className={relation === "Significant Other" ? styles.selected : ""}
           onClick={() => setRelation("Significant Other")}
         >
@@ -185,7 +191,7 @@ function ChooseOccasion({ occasion, setOccasion }) {
         For what occasion are you giving this gift?
       </p>
       <div className={styles.occasionSelect}>
-        <button
+        <button type="button"
           className={occasion === "Birthday" ? styles.selected : ""}
           onClick={() => setOccasion("Birthday")}
         >
@@ -193,7 +199,7 @@ function ChooseOccasion({ occasion, setOccasion }) {
           <br />
           Birthday
         </button>
-        <button
+        <button type="button"
           className={occasion === "Graduation" ? styles.selected : ""}
           onClick={() => setOccasion("Graduation")}
         >
@@ -201,7 +207,7 @@ function ChooseOccasion({ occasion, setOccasion }) {
           <br />
           Graduation
         </button>
-        <button
+        <button type="button"
           className={occasion === "Valentine" ? styles.selected : ""}
           onClick={() => setOccasion("Valentine")}
         >
@@ -209,7 +215,7 @@ function ChooseOccasion({ occasion, setOccasion }) {
           <br />
           Valentine
         </button>
-        <button
+        <button type="button"
           className={occasion === "Because I Want to" ? styles.selected : ""}
           onClick={() => setOccasion("Because I Want to")}
         >
@@ -217,7 +223,7 @@ function ChooseOccasion({ occasion, setOccasion }) {
           <br />
           Because I Want to
         </button>
-        <button
+        <button type="button"
           className={occasion === "Christmas" ? styles.selected : ""}
           onClick={() => setOccasion("Christmas")}
         >
@@ -225,7 +231,7 @@ function ChooseOccasion({ occasion, setOccasion }) {
           <br />
           Christmas
         </button>
-        <button
+        <button type="button"
           className={occasion === "Other Occasion" ? styles.selected : ""}
           onClick={() => setOccasion("Other Occasion")}
         >
@@ -234,6 +240,29 @@ function ChooseOccasion({ occasion, setOccasion }) {
           Other Occasion
         </button>
       </div>
+    </div>
+  );
+}
+
+function ChooseInterests({ interests, handleInterestChange }) {
+  const interestOptions = ["Books", "Technology", "Sports", "Cooking"]; // add more stuff here as we advance
+  return (
+    <div>
+      <p className={styles.largeText}>Select Interests:</p>
+      {interestOptions.map(interest => (
+        <button type="button" key={interest} className={interests.includes(interest) ? styles.selected : ""} onClick={() => handleInterestChange(interest)}>
+          {interest}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ChooseBudget({ budget, setBudget }) {
+  return (
+    <div>
+      <p className={styles.largeText}>What's your budget?</p>
+      <input type="number" value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="Enter budget in USD" />
     </div>
   );
 }

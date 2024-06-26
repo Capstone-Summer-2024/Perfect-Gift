@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import homepageBg from "../assets/homepageBg.mp4";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.homepage}>
       <div className={styles.videoBackground}>
@@ -17,7 +20,7 @@ const HomePage = () => {
           Take a short personality quiz and be matched with a unique list of
           curated gift ideas built just for them.
         </p>
-        <button className={styles.getStarted}>Get Started</button>
+        <button className={styles.getStarted} onClick={() => navigate("/collectinginfo")}>Get Started</button>
       </div>
     </div>
   );
