@@ -6,8 +6,8 @@ node_modules/
 
 # Backend specific ignores
 backend/.env
-backend/ package.json
-backend/ package-lock.json
+backend/package.json
+backend/package-lock.json
 backend/node_modules
 
 # Frontend specific ignores
