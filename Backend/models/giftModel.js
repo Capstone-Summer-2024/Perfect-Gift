@@ -9,6 +9,9 @@ const giftSchema = new Schema(
     occasion: String,
     interests: [String],
     budget: Number,
+    questions: [String],
+    answers: [String],
+    finalItems: [String],
   },
   { timestamps: true }
 );

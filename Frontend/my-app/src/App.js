@@ -4,14 +4,17 @@ import LoginSignup from "./pages/LoginSignup";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/NavBar";
 
+import SignupForm from "./components/MultiStepForm";
+
 function App() {
   return (
     <div className="App">
-      <CollectingInfo />
+      {/* <CollectingInfo /> */}
       <Navbar />
       {/* <LoginSignup /> */}
 
       {/* <HomePage /> */}
+      <SignupForm />
     </div>
   );
 }

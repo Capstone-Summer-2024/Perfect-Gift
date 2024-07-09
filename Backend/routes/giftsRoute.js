@@ -23,17 +23,8 @@ router.post("/", async (req, res) => {
   const { gender, age, relation, occasion, interests, budget } = req.body;
 
   try {
-    const gift = await Gift.create({
-      gender,
-      age,
-      relation,
-      occasion,
-      interests,
-      budget,
-    });
-
     // prompt for OpenAI
-    const userPrompt = `generate 5 questions based on the following input from gift giver to narrow down their gift choice selection based on the gift recipient - gender: ${gender}, age: ${age}, occasion:${occasion}, relation:${relation}, budget: ${budget}, interests:${interests}".`;
+    const userPrompt = `generate 5 questions based on the following input from gift giver to narrow down their gift choice selection based on the gift recipient - Gender: ${gender}\nAge: ${age}\nOccasion:${occasion}\nRelation:${relation}\nBudget: ${budget}\nInterests: ${interests}".`;
 
     const openaiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -48,7 +39,19 @@ router.post("/", async (req, res) => {
 
     console.log(openaiResponse); // Debugging: Log the full response
 
-    const generatedSuggestion = openaiResponse.choices[0].message.content;
+    const generatedSuggestion = openaiResponse.choices[0].message.content
+      .trim()
+      .split("\n");
+
+    const gift = await Gift.create({
+      gender,
+      age,
+      relation,
+      occasion,
+      interests,
+      budget,
+      questions: generatedSuggestion,
+    });
 
     res.status(200).json({ gift, suggestion: generatedSuggestion });
   } catch (error) {
