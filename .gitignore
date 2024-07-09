@@ -1,14 +1,16 @@
-.DS_Store
-# Node modules
+# General ignore rules for node_modules and log files
 node_modules/
-
-# Environment variables
-.env
-
-# Logs
-logs
 *.log
-npm-debug.log*
-
-# Others
+*.temp
 .DS_Store
+
+# Backend specific ignores
+backend/.env
+backend/node_modules
+
+# Frontend specific ignores
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage
+frontend/build
+frontend/*.local
