@@ -5,8 +5,14 @@
     "express": "^4.19.2"
 =======
     "express": "^4.19.2",
+<<<<<<< Updated upstream
     "mongoose": "^8.4.4",
     "node-fetch": "^3.3.2"
+>>>>>>> Stashed changes
+=======
+    "mongoose": "^8.4.1",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.52.4"
 >>>>>>> Stashed changes
   },
   "devDependencies": {
