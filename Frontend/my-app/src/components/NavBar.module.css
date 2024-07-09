@@ -3,18 +3,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.8
-  ); /* Updated background color with transparency */
+  background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: fixed; /* Fix the navbar at the top */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; /* forces the navbar on top of other components*/
+  z-index: 1000;
 }
 
 .navbarLogo h1 {
@@ -22,6 +17,10 @@
   font-size: 24px;
   font-weight: bold;
   color: white;
+}
+
+.logoLink {
+  text-decoration: none; /* Remove underline from the logo link */
 }
 
 .navbarLinks {

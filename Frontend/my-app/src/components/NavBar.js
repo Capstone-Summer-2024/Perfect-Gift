@@ -49,19 +49,22 @@
 // export default NavBar;
 
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
 const Navbar = () => {
   return (
     <header className={styles.navbar}>
       <div className={styles.navbarLogo}>
-        <h1>PerfectGift</h1>
+        <Link to="/" className={styles.logoLink}>
+          <h1>PerfectGift</h1>
+        </Link>
       </div>
       <nav className={styles.navbarLinks}>
-        <a>Home</a>
-        <a>About</a>
-        <a>Login</a>
-        <a>Signup</a>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/login">Signup</Link>
       </nav>
     </header>
   );
