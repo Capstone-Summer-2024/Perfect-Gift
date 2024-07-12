@@ -27,7 +27,7 @@ const getGift = async (req, res) => {
   res.status(200).json(gift);
 };
 
-// create a gift
+// create a gift and suggestion
 const createGift = async (req, res) => {
   const { gender, age, relation, occasion, interests, budget } = req.body;
 
@@ -84,10 +84,102 @@ const deleteGift = async (req, res) => {
 
   res.status(200).json(gift);
 };
+//update a gift
+const updateGift = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such gift exists" });
+  }
+
+  try {
+    const gift = await Gift.findByIdAndUpdate(
+      { _id: id },
+      {
+        ...req.body,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!gift) {
+      return res.status(400).json({ error: "No such gift exists" });
+    }
+
+    res.status(200).json(gift);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update the gift" });
+  }
+};
+
+//post a gift answers and response
+const updateGiftAnswers = async (req, res) => {
+  const { id } = req.params;
+  const { answers } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such gift exists" });
+  }
+
+  try {
+    // Find the gift document by ID
+    const gift = await Gift.findById(id);
+
+    if (!gift) {
+      return res.status(400).json({ error: "No such gift exists" });
+    }
+
+    // Update the gift with the answers
+    gift.answers = answers;
+    await gift.save();
+
+    // Prepare the prompt for OpenAI
+    const userPrompt = `Based on the following information, 
+    suggest 5 gift items, don't make the suggestion long, just the specific items or their catagory:
+    Gender: ${gift.gender}
+    Age: ${gift.age}
+    Relation: ${gift.relation}
+    Occasion: ${gift.occasion}
+    Interests: ${gift.interests.join(", ")}
+    Budget: ${gift.budget}
+    Questions and Answers:
+    ${gift.questions
+      .map((q, index) => `Q: ${q}\nA: ${answers[index]}`)
+      .join("\n")}
+    `;
+
+    const openaiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "user",
+          content: userPrompt,
+        },
+      ],
+      max_tokens: 200,
+    });
+
+    const generatedItems = openaiResponse.choices[0].message.content
+      .trim()
+      .split("\n");
+
+    // Update the gift with the final items
+    gift.finalItems = generatedItems;
+    await gift.save();
+
+    res.status(200).json({ gift, items: generatedItems });
+  } catch (error) {
+    console.error("Error from OpenAI API:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to update the gift and generate items" });
+  }
+};
 
 module.exports = {
   createGift,
   getGift,
   getGifts,
   deleteGift,
+  updateGift,
+  updateGiftAnswers,
 };

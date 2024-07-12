@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./MultiStepForm.module.css";
 import GeneratedQuestions from "./GeneratedQuestions";
+import GiftSuggestions from "./GiftSuggestions";
 
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
@@ -14,6 +15,8 @@ const MultiStepForm = () => {
   });
   const [questions, setQuestions] = useState([]);
   const [showQuestions, setShowQuestions] = useState(false);
+  const [giftId, setGiftId] = useState(null); // Add giftId state
+  const [suggestedItems, setSuggestedItems] = useState([]); // State for suggested items
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -38,9 +41,10 @@ const MultiStepForm = () => {
     setFormData({ ...formData, age: e.target.value });
   };
 
-  const handleQuestionSubmit = (answers) => {
-    // Handle the answers submitted by the user
-    console.log("Answers submitted:", answers);
+  const handleQuestionSubmit = (items) => {
+    // Handle the items submitted by the user
+    setSuggestedItems(items);
+    setShowQuestions(false); // Hide the QuestionForm after submission
   };
 
   const handleSubmit = (e) => {
@@ -65,6 +69,7 @@ const MultiStepForm = () => {
       .then((data) => {
         console.log("Success:", data);
         setQuestions(data.suggestion);
+        setGiftId(data.gift._id); // Store the giftId
         setShowQuestions(true); // Show the questions form
       })
       .catch((error) => {
@@ -76,7 +81,7 @@ const MultiStepForm = () => {
 
   return (
     <div className={styles.pageContainer}>
-      {!showQuestions ? (
+      {!showQuestions && suggestedItems.length === 0 ? (
         <div className={styles.formContainer}>
           <h3>Step {step}</h3>
           <div className={styles.progressBarContainer}>
@@ -264,10 +269,18 @@ const MultiStepForm = () => {
           )}
         </div>
       ) : (
-        <GeneratedQuestions
-          questions={questions}
-          onSubmit={handleQuestionSubmit}
-        />
+        <div>
+          {showQuestions && (
+            <GeneratedQuestions
+              questions={questions}
+              giftId={giftId}
+              onSubmit={handleQuestionSubmit}
+            />
+          )}
+          {suggestedItems.length > 0 && (
+            <GiftSuggestions items={suggestedItems} />
+          )}
+        </div>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./GeneratedQuestions.module.css";
 
-const GeneratedQuestions = ({ questions, onSubmit }) => {
+const GeneratedQuestions = ({ giftId, questions, onSubmit }) => {
   const [answers, setAnswers] = useState(Array(questions.length).fill(""));
 
   const handleChange = (index, value) => {
@@ -12,7 +12,30 @@ const GeneratedQuestions = ({ questions, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(answers);
+
+    // Prepare the data to be sent
+    const data = JSON.stringify({ answers });
+
+    fetch(`http://localhost:5001/api/gifts/${giftId}/answers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Generated Gift Items:", data.items); // Log the gift items to the console
+        onSubmit(data.items); // Call the onSubmit prop to handle the answers
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
