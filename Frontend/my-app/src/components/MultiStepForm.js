@@ -3,8 +3,9 @@ import styles from "./MultiStepForm.module.css";
 import GeneratedQuestions from "./GeneratedQuestions";
 import GiftSuggestions from "./GiftSuggestions";
 import UserSelectionButton from "./UserSelectionButton"; // Import the new component
+import PopupWarning from "./PopupWarning"; // Import the new component
 
-//importing the icons
+// Importing the icons
 import maleIcon from "../assets/man.png";
 import femaleIcon from "../assets/women.png";
 import otherIcon from "../assets/non-binary.png";
@@ -17,6 +18,7 @@ import christmasIcon from "../assets/christmas.png";
 import valentinesIcon from "../assets/valentines.png";
 import graduationIcon from "../assets/graduation.png";
 import justBecauseIcon from "../assets/justbecause.png";
+import weddingIcon from "../assets/wedding.png";
 
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
@@ -32,8 +34,22 @@ const MultiStepForm = () => {
   const [showQuestions, setShowQuestions] = useState(false);
   const [giftId, setGiftId] = useState(null); // Add giftId state
   const [suggestedItems, setSuggestedItems] = useState([]); // State for suggested items
+  const [showPopup, setShowPopup] = useState(false); // State for showing the popup
 
-  const nextStep = () => setStep(step + 1);
+  const nextStep = () => {
+    if (
+      (step === 1 && !formData.gender) ||
+      (step === 2 && formData.age === 0) ||
+      (step === 3 && !formData.relation) ||
+      (step === 4 && !formData.occasion)
+    ) {
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000); // Hide the popup after 3 seconds
+      return;
+    }
+    setStep(step + 1);
+  };
+
   const prevStep = () => setStep(step - 1);
 
   const handleGenderSelection = (gender) => {
@@ -96,6 +112,7 @@ const MultiStepForm = () => {
 
   return (
     <div className={styles.pageContainer}>
+      <PopupWarning message="Please make a selection" show={showPopup} />
       {!showQuestions && suggestedItems.length === 0 ? (
         <div className={styles.formContainer}>
           <h3>Step {step}</h3>
@@ -226,6 +243,13 @@ const MultiStepForm = () => {
                   handleSelection={handleOccasionSelection}
                   label="Graduation"
                   iconSrc={graduationIcon}
+                />
+                <UserSelectionButton
+                  selection="Wedding"
+                  selectedValue={formData.occasion}
+                  handleSelection={handleOccasionSelection}
+                  label="Wedding"
+                  iconSrc={weddingIcon}
                 />
                 <UserSelectionButton
                   selection="Just Because"
