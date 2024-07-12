@@ -2,6 +2,21 @@ import React, { useState } from "react";
 import styles from "./MultiStepForm.module.css";
 import GeneratedQuestions from "./GeneratedQuestions";
 import GiftSuggestions from "./GiftSuggestions";
+import UserSelectionButton from "./UserSelectionButton"; // Import the new component
+
+//importing the icons
+import maleIcon from "../assets/man.png";
+import femaleIcon from "../assets/women.png";
+import otherIcon from "../assets/non-binary.png";
+import coworkerIcon from "../assets/coworker.png";
+import friendIcon from "../assets/friend.png";
+import familyIcon from "../assets/family.png";
+import significantOtherIcon from "../assets/significantother.png";
+import birthdayIcon from "../assets/happy-birthday.png";
+import christmasIcon from "../assets/christmas.png";
+import valentinesIcon from "../assets/valentines.png";
+import graduationIcon from "../assets/graduation.png";
+import justBecauseIcon from "../assets/justbecause.png";
 
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
@@ -92,31 +107,28 @@ const MultiStepForm = () => {
           </div>
           {step === 1 && (
             <div>
-              <div className={styles.genderButtonContainer}>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.gender === "Male" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleGenderSelection("Male")}
-                >
-                  <span className={styles.genderIcon}>♂️</span> Male
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.gender === "Female" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleGenderSelection("Female")}
-                >
-                  <span className={styles.genderIcon}>♀️</span> Female
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.gender === "Other" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleGenderSelection("Other")}
-                >
-                  <span className={styles.genderIcon}>⚧</span> Other
-                </button>
+              <div className={styles.selectionButtonContainer}>
+                <UserSelectionButton
+                  selection="Male"
+                  selectedValue={formData.gender}
+                  handleSelection={handleGenderSelection}
+                  label="Male"
+                  iconSrc={maleIcon}
+                />
+                <UserSelectionButton
+                  selection="Female"
+                  selectedValue={formData.gender}
+                  handleSelection={handleGenderSelection}
+                  label="Female"
+                  iconSrc={femaleIcon}
+                />
+                <UserSelectionButton
+                  selection="Other"
+                  selectedValue={formData.gender}
+                  handleSelection={handleGenderSelection}
+                  label="Other"
+                  iconSrc={otherIcon}
+                />
               </div>
 
               <div className={styles.buttonContainer}>
@@ -148,41 +160,35 @@ const MultiStepForm = () => {
           )}
           {step === 3 && (
             <div>
-              <div className={styles.genderButtonContainer}>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.relation === "Coworker" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleRelationSelection("Coworker")}
-                >
-                  <span className={styles.genderIcon}>♂️</span> Coworker
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.relation === "Friend" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleRelationSelection("Friend")}
-                >
-                  <span className={styles.genderIcon}>♀️</span> Friend
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.relation === "Family" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleRelationSelection("Family")}
-                >
-                  <span className={styles.genderIcon}>⚧</span> Family
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.relation === "Significant Other"
-                      ? styles.selected
-                      : ""
-                  }`}
-                  onClick={() => handleRelationSelection("Significant Other")}
-                >
-                  <span className={styles.genderIcon}>⚧</span> Significant Other
-                </button>
+              <div className={styles.selectionButtonContainer}>
+                <UserSelectionButton
+                  selection="Coworker"
+                  selectedValue={formData.relation}
+                  handleSelection={handleRelationSelection}
+                  label="Coworker"
+                  iconSrc={coworkerIcon}
+                />
+                <UserSelectionButton
+                  selection="Friend"
+                  selectedValue={formData.relation}
+                  handleSelection={handleRelationSelection}
+                  label="Friend"
+                  iconSrc={friendIcon}
+                />
+                <UserSelectionButton
+                  selection="Family"
+                  selectedValue={formData.relation}
+                  handleSelection={handleRelationSelection}
+                  label="Family"
+                  iconSrc={familyIcon}
+                />
+                <UserSelectionButton
+                  selection="Significant Other"
+                  selectedValue={formData.relation}
+                  handleSelection={handleRelationSelection}
+                  label="Significant Other"
+                  iconSrc={significantOtherIcon}
+                />
               </div>
               <div className={styles.buttonContainer}>
                 <button onClick={prevStep}>Back</button>
@@ -192,47 +198,42 @@ const MultiStepForm = () => {
           )}
           {step === 4 && (
             <div>
-              <div className={styles.genderButtonContainer}>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.occasion === "Birthday" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleOccasionSelection("Birthday")}
-                >
-                  <span className={styles.genderIcon}>♂️</span> Birthday
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.occasion === "Christmas" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleOccasionSelection("Christmas")}
-                >
-                  <span className={styles.genderIcon}>♀️</span> Christmas
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.occasion === "Valentines" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleOccasionSelection("Valentines")}
-                >
-                  <span className={styles.genderIcon}>⚧</span> Valentines
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.occasion === "Graduation" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleOccasionSelection("Graduation")}
-                >
-                  <span className={styles.genderIcon}>⚧</span> Graduation
-                </button>
-                <button
-                  className={`${styles.genderButton} ${
-                    formData.occasion === "Just Beacuse" ? styles.selected : ""
-                  }`}
-                  onClick={() => handleOccasionSelection("Just Beacuse")}
-                >
-                  <span className={styles.genderIcon}>⚧</span> Just Because
-                </button>
+              <div className={styles.selectionButtonContainer}>
+                <UserSelectionButton
+                  selection="Birthday"
+                  selectedValue={formData.occasion}
+                  handleSelection={handleOccasionSelection}
+                  label="Birthday"
+                  iconSrc={birthdayIcon}
+                />
+                <UserSelectionButton
+                  selection="Christmas"
+                  selectedValue={formData.occasion}
+                  handleSelection={handleOccasionSelection}
+                  label="Christmas"
+                  iconSrc={christmasIcon}
+                />
+                <UserSelectionButton
+                  selection="Valentines"
+                  selectedValue={formData.occasion}
+                  handleSelection={handleOccasionSelection}
+                  label="Valentines"
+                  iconSrc={valentinesIcon}
+                />
+                <UserSelectionButton
+                  selection="Graduation"
+                  selectedValue={formData.occasion}
+                  handleSelection={handleOccasionSelection}
+                  label="Graduation"
+                  iconSrc={graduationIcon}
+                />
+                <UserSelectionButton
+                  selection="Just Because"
+                  selectedValue={formData.occasion}
+                  handleSelection={handleOccasionSelection}
+                  label="Just Because"
+                  iconSrc={justBecauseIcon}
+                />
               </div>
               <div className={styles.buttonContainer}>
                 <button onClick={prevStep}>Back</button>
@@ -240,7 +241,6 @@ const MultiStepForm = () => {
               </div>
             </div>
           )}
-
           {step === 5 && (
             <div className={styles.labelContainer}>
               <label>
