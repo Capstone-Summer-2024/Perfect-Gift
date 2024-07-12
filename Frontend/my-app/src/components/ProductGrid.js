@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styles from "./ProductGrid.module.css";
+import React from "react";
+//import style from "./ProductGrid.module.css";
 
 const ProductGrid = () => {
     return (

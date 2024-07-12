@@ -1,12 +1,15 @@
+
 .container {
-    background-color: #fff;
+    background-color: #e6e5e5;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 100%;
     text-align: center;
-    margin-top: 100px;
-    margin-left: 400px;
+    margin: auto;
+    padding-right: 35px;
+    margin-top: 10%;
 }
 
 h2 {
@@ -38,9 +41,14 @@ button {
     cursor: pointer;
 }
 
+.favoriteButton {
+    background-color: #2ea4db;
+    margin-bottom: 40px;
+}
+
 .logoutButton {
     background-color: #dc3545;
-    margin-top: 10px;
+    margin-top: 60px;
 }
 
 button:hover {
