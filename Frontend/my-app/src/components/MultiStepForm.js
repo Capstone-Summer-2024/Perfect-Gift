@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./MultiStepForm.module.css";
 import GeneratedQuestions from "./GeneratedQuestions";
 import GiftSuggestions from "./GiftSuggestions";
-import UserSelectionButton from "./UserSelectionButton"; // Import the new component
-import PopupWarning from "./PopupWarning"; // Import the new component
+import UserSelectionButton from "./UserSelectionButton";
+import PopupWarning from "./PopupWarning";
 
 // Importing the icons
 import maleIcon from "../assets/man.png";
@@ -20,6 +20,9 @@ import graduationIcon from "../assets/graduation.png";
 import justBecauseIcon from "../assets/justbecause.png";
 import weddingIcon from "../assets/wedding.png";
 
+// Import the loading video
+import loadingVideo from "../assets/loadingBg.mp4";
+
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -35,6 +38,7 @@ const MultiStepForm = () => {
   const [giftId, setGiftId] = useState(null); // Add giftId state
   const [suggestedItems, setSuggestedItems] = useState([]); // State for suggested items
   const [showPopup, setShowPopup] = useState(false); // State for showing the popup
+  const [loading, setLoading] = useState(false); // State for loading
 
   const nextStep = () => {
     if (
@@ -84,6 +88,8 @@ const MultiStepForm = () => {
     // Prepare the data to be sent
     const data = JSON.stringify(formData);
 
+    setLoading(true); // Set loading state to true
+
     fetch("http://localhost:5001/api/gifts/", {
       method: "POST",
       headers: {
@@ -102,9 +108,11 @@ const MultiStepForm = () => {
         setQuestions(data.suggestion);
         setGiftId(data.gift._id); // Store the giftId
         setShowQuestions(true); // Show the questions form
+        setLoading(false); // Set loading state to false
       })
       .catch((error) => {
         console.error("Error:", error);
+        setLoading(false); // Set loading state to false
       });
   };
 
@@ -113,7 +121,17 @@ const MultiStepForm = () => {
   return (
     <div className={styles.pageContainer}>
       <PopupWarning message="Please make a selection" show={showPopup} />
-      {!showQuestions && suggestedItems.length === 0 ? (
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          <p>Loading...</p>
+          <video
+            src={loadingVideo}
+            autoPlay
+            loop
+            className={styles.loadingVideo}
+          ></video>
+        </div>
+      ) : !showQuestions && suggestedItems.length === 0 ? (
         <div className={styles.formContainer}>
           <h3>Step {step}</h3>
           <div className={styles.progressBarContainer}>
