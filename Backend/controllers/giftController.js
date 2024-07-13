@@ -175,6 +175,69 @@ const updateGiftAnswers = async (req, res) => {
   }
 };
 
+// // Function to fetch products from RapidAPI
+// const fetchProducts = async (req, res) => {
+//   const { query } = req.query; // Get the search query from the request
+
+//   if (!query) {
+//     return res.status(400).json({ error: "Query parameter is required" });
+//   }
+
+//   const url = `https://real-time-amazon-data.p.rapidapi.com/search?query=${query}&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL`;
+
+//   try {
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         "x-rapidapi-key": process.env.RAPIDAPI_KEY,
+//         "x-rapidapi-host": "real-time-amazon-data.p.rapidapi.com",
+//       },
+//     });
+
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+
+//     const data = await response.json();
+//     res.status(200).json(data);
+//   } catch (error) {
+//     console.error("Error fetching products:", error);
+//     res.status(500).json({ error: "Failed to fetch products" });
+//   }
+// };
+const fetchProducts = async (req, res) => {
+  const { query } = req.query;
+
+  console.log("Query Parameter:", query); // Log the query parameter
+
+  if (!query) {
+    return res.status(400).json({ error: "Query parameter is required" });
+  }
+
+  const url = `https://real-time-amazon-data.p.rapidapi.com/search?query=${query}&page=1&country=US&sort_by=RELEVANCE&product_condition=ALL`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "x-rapidapi-key": process.env.RAPIDAPI_KEY,
+        "x-rapidapi-host": "real-time-amazon-data.p.rapidapi.com",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log("API Response Data:", data); // Log the response data to verify structure
+    res.status(200).json({ products: data.data.products || [] }); // Ensure 'data.data.products' matches the actual API response structure
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+};
+
 module.exports = {
   createGift,
   getGift,
@@ -182,4 +245,5 @@ module.exports = {
   deleteGift,
   updateGift,
   updateGiftAnswers,
+  fetchProducts,
 };

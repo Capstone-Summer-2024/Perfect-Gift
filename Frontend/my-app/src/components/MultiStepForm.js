@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./MultiStepForm.module.css";
 import GeneratedQuestions from "./GeneratedQuestions";
 import GiftSuggestions from "./GiftSuggestions";
+import ProductList from "./ProductList"; // Import the new component
 import UserSelectionButton from "./UserSelectionButton";
 import PopupWarning from "./PopupWarning";
 
@@ -39,6 +40,7 @@ const MultiStepForm = () => {
   const [suggestedItems, setSuggestedItems] = useState([]); // State for suggested items
   const [showPopup, setShowPopup] = useState(false); // State for showing the popup
   const [loading, setLoading] = useState(false); // State for loading
+  const [selectedGiftItem, setSelectedGiftItem] = useState(null); // State for selected gift item
 
   const nextStep = () => {
     if (
@@ -116,6 +118,14 @@ const MultiStepForm = () => {
       });
   };
 
+  const handleItemClick = (item) => {
+    setSelectedGiftItem(item);
+  };
+
+  const handleBack = () => {
+    setSelectedGiftItem(null);
+  };
+
   const progress = (step / 5) * 100;
 
   return (
@@ -131,6 +141,8 @@ const MultiStepForm = () => {
             className={styles.loadingVideo}
           ></video>
         </div>
+      ) : selectedGiftItem ? (
+        <ProductList query={selectedGiftItem} onBack={handleBack} />
       ) : !showQuestions && suggestedItems.length === 0 ? (
         <div className={styles.formContainer}>
           <h3>Step {step}</h3>
@@ -320,7 +332,10 @@ const MultiStepForm = () => {
             />
           )}
           {suggestedItems.length > 0 && (
-            <GiftSuggestions items={suggestedItems} />
+            <GiftSuggestions
+              items={suggestedItems}
+              onItemClick={handleItemClick}
+            />
           )}
         </div>
       )}

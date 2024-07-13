@@ -52,7 +52,7 @@ label {
   border-radius: 5px;
 }
 
-input[type="range"] {
+.sliderContainer input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 70%;

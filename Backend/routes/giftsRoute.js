@@ -7,7 +7,11 @@ const {
   deleteGift,
   updateGift,
   updateGiftAnswers,
+  fetchProducts, // Import the new function
 } = require("../controllers/giftController");
+
+// Fetch products from RapidAPI
+router.get("/search", fetchProducts); // Add the new route at the top
 
 // GET all gifts route
 router.get("/", getGifts);
@@ -21,10 +25,10 @@ router.post("/", createGift);
 // Delete a gift route
 router.delete("/:id", deleteGift);
 
-// update a gift route
+// Update a gift route
 router.patch("/:id", updateGift);
 
-//update gift answers route
+// Update gift answers route
 router.post("/:id/answers", updateGiftAnswers);
 
 module.exports = router;
