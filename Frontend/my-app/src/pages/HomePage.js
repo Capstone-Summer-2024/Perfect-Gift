@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import homepageBg from "../assets/homepageBg.mp4";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.homepage}>
       <div className={styles.videoBackground}>
@@ -19,7 +22,7 @@ const HomePage = () => {
           curated gift ideas built just for them.
         </p>
         <Link to="/collect-info">
-          <button className={styles.getStarted}>Get Started</button>
+          <button className={styles.getStarted} onClick={() => navigate("/collectinginfo")}>Get Started</button>
         </Link>
       </div>
     </div>
