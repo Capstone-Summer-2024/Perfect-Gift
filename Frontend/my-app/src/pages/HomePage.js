@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styles from "./HomePage.module.css";
 import homepageBg from "../assets/homepageBg.mp4";
@@ -20,7 +21,9 @@ const HomePage = () => {
           Take a short personality quiz and be matched with a unique list of
           curated gift ideas built just for them.
         </p>
-        <button className={styles.getStarted} onClick={() => navigate("/collectinginfo")}>Get Started</button>
+        <Link to="/collect-info">
+          <button className={styles.getStarted} onClick={() => navigate("/collectinginfo")}>Get Started</button>
+        </Link>
       </div>
     </div>
   );

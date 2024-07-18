@@ -1,0 +1,168 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  align-items: center;
+  min-height: 100vh; /* Ensure the container takes up the full height */
+  background-color: #f2edeb; /* Optional: for better visibility */
+}
+
+.formContainer {
+  width: 70%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white; /* Optional: for better visibility */
+  margin-bottom: 20px; /* Move the form container a bit towards the bottom */
+}
+
+.progressBarContainer {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.progressBar {
+  height: 10px;
+  background-color: #007bff;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+}
+
+.labelContainer input[type="text"],
+.labelContainer input[type="number"] {
+  width: 80%;
+  padding: 8px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.sliderContainer input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 70%;
+  height: 10px;
+  border-radius: 5px;
+  background: rgb(245, 5, 5);
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.ageDisplay {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.buttonContainer button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.buttonContainer button:hover {
+  background-color: #0056b3;
+}
+
+h2,
+h3 {
+  text-align: center;
+}
+
+.selectionButtonContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* Allow buttons to wrap if they overflow */
+  margin: 50px 0;
+}
+
+.selectionButton {
+  padding: 50px 50px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px; /* Add margin between buttons */
+}
+
+.selectionButton:hover {
+  background-color: #0056b3;
+}
+
+.selectionButton.selected {
+  background-color: #0056b3; /* Different color for selected button */
+}
+
+.selectionIcon {
+  margin-right: 10px;
+}
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.loadingVideo {
+  width: 300px;
+  height: auto;
+  margin-top: 20px;
+}
