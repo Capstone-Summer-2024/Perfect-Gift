@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./LoginSignup.module.css";
 import { auth } from "../config/firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const LoginSignup = () => {
-  const location = useLocation();
   const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const mode = params.get("mode");
+    const queryParams = new URLSearchParams(location.search);
+    const mode = queryParams.get("mode");
     if (mode === "signup") {
       setIsSignup(true);
-    } else {
+    } else if (mode === "login") {
       setIsSignup(false);
     }
   }, [location]);
@@ -32,16 +34,23 @@ const LoginSignup = () => {
 
   const handleSignup = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Optionally, save the fullname in your database
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const db = getFirestore();
+      await setDoc(doc(db, "users", user.uid), {
+        email,
+        fullname
+      });
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
   };
-
+  
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -75,8 +84,8 @@ const LoginSignup = () => {
           <div className={`${styles.login} ${isSignup ? styles.hide : ""}`}>
             <h2>LOG IN</h2>
             <div className={styles.inputbox}>
-              <input type="text" name="email" placeholder="  EMAIL" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type="password" name="password" placeholder="  PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type="text" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <p>FORGET PASSWORD?</p>
             <button onClick={handleLogin}>LOG IN</button>
@@ -86,9 +95,9 @@ const LoginSignup = () => {
           <div className={`${styles.signup} ${isSignup ? "" : styles.hide}`}>
             <h2>SIGN UP</h2>
             <div className={styles.inputbox}>
-              <input type="text" name="fullname" placeholder="  FULLNAME" value={fullname} onChange={(e) => setFullname(e.target.value)} />
-              <input type="text" name="email" placeholder="  EMAIL" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type="password" name="password" placeholder="  PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type="text" name="fullname" placeholder="Full Name" value={fullname} onChange={(e) => setFullname(e.target.value)} />
+              <input type="text" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <button onClick={handleSignup}>SIGN UP</button>
             {error && <p className={styles.error}>{error}</p>}

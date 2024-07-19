@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import styles from "./ProductList.module.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../config/firebaseConfig";
+import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 const ProductList = ({ query, onBack }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [maxPrice, setMaxPrice] = useState(1000); // Set initial max price to a reasonable default value
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,9 +46,21 @@ const ProductList = ({ query, onBack }) => {
     );
   }, [maxPrice, products]);
 
-  const handleAddToFavorites = (product) => {
-    // Add logic to handle adding the product to favorites
-    console.log("Added to favorites:", product);
+  const handleAddToFavorites = async (product) => {
+    if (user) {
+      const db = getFirestore();
+      const userRef = doc(db, "users", user.uid);
+      try {
+        await updateDoc(userRef, {
+          favorites: arrayUnion(product)
+        });
+        console.log("Added to favorites:", product);
+      } catch (error) {
+        console.error("Error adding to favorites:", error);
+      }
+    } else {
+      console.log("User not authenticated");
+    }
   };
 
   return (
