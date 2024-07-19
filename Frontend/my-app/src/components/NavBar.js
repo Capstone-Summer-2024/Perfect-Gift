@@ -24,6 +24,10 @@ const Navbar = () => {
     event.preventDefault();
     navigate("/register-login?mode=signup");
   };
+  const handleDashboardClick = (event) => {
+    event.preventDefault();
+    navigate("/dashboard");
+  };
 
   const handleLoginClick = (event) => {
     event.preventDefault();
@@ -49,9 +53,12 @@ const Navbar = () => {
         </div>
       )}
       <nav className={styles.navbarLinks}>
-        <Link to="/">Home</Link>
+      <Link to="/" className={styles.navbarLink}>Home</Link>
         {user ? (
-          <button onClick={handleSignOutClick} className={styles.navbarLink}>Sign Out</button>
+          <>
+            <Link to="/dashboard" className={styles.navbarLink}>Dashboard</Link>
+            <button onClick={handleSignOutClick} className={styles.navbarLink}>Sign Out</button>
+          </>
         ) : (
           <>
             <a href="/register-login?mode=login" onClick={handleLoginClick} className={styles.navbarLink}>
