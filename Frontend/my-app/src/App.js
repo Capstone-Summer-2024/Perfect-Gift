@@ -8,6 +8,9 @@ import ProductList from "./components/ProductList";
 import MultiStepForm from "./components/MultiStepForm";
 import FavoritesPage from "./pages/FavoritesPage";
 import PrivateRoute from "./components/PrivateRoute";
+import Dashboard from "./pages/Dashboard";
+import ProductGrid from "./components/ProductGrid";
+
 
 function App() {
   return (
@@ -20,6 +23,8 @@ function App() {
           <Route path="/register-login" element={<LoginSignup />} />
           <Route path="/collect-info" element={<MultiStepForm />} />
           <Route path="/gift-items" element={<ProductList />} />
+          <Route path="/product-grid" element={<ProductGrid />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route
             path="/favorites"
             element={
