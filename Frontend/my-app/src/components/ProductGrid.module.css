@@ -1,0 +1,28 @@
+.backing {
+    background-color: #e8e8e8;
+  }
+
+  .shadow {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+  }
+
+  .navmargin {
+    margin-top: 75px;
+  }
+
+  .heartIcon {
+    position: absolute; 
+    top: 15px;
+    left: 15px;
+    cursor: pointer;
+    z-index: 1;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+  }
+
+  .bold {
+    font-weight: bold;
+    color: black;
+  }
