@@ -1,29 +1,36 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-//import CollectingInfo from "./pages/CollectingInfo";
-import LoginSignup from "./pages/LoginSignup";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import LoginSignup from "./pages/LoginSignup";
+import CollectingInfo from "./pages/CollectingInfo";
 import Navbar from "./components/NavBar";
-import Dashboard from "./pages/Dashboard";
-import ProductGrid from "./components/ProductGrid";
+import ProductList from "./components/ProductList";
 import MultiStepForm from "./components/MultiStepForm";
+import FavoritesPage from "./pages/FavoritesPage";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <div className="pages">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginSignup />} />
-            <Route path="/collect-info" element={<MultiStepForm />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/product-grid" element={<ProductGrid />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="pages">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<div>About Page</div>} />
+          <Route path="/register-login" element={<LoginSignup />} />
+          <Route path="/collect-info" element={<MultiStepForm />} />
+          <Route path="/gift-items" element={<ProductList />} />
+          <Route
+            path="/favorites"
+            element={
+              <PrivateRoute>
+                <FavoritesPage />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

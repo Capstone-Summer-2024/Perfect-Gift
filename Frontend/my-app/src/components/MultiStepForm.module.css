@@ -52,7 +52,7 @@ label {
   border-radius: 5px;
 }
 
-input[type="range"] {
+.sliderContainer input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 70%;
@@ -102,6 +102,7 @@ input[type="range"]::-moz-range-thumb {
   justify-content: space-between;
   margin-top: 20px;
 }
+
 .buttonContainer button {
   padding: 10px 20px;
   border: none;
@@ -120,13 +121,14 @@ h3 {
   text-align: center;
 }
 
-.genderButtonContainer {
+.selectionButtonContainer {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap; /* Allow buttons to wrap if they overflow */
   margin: 50px 0;
 }
 
-.genderButton {
+.selectionButton {
   padding: 50px 50px;
   border: none;
   border-radius: 5px;
@@ -135,16 +137,32 @@ h3 {
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 10px; /* Add margin between buttons */
 }
 
-.genderButton:hover {
+.selectionButton:hover {
   background-color: #0056b3;
 }
 
-.genderButton.selected {
+.selectionButton.selected {
   background-color: #0056b3; /* Different color for selected button */
 }
 
-.genderIcon {
+.selectionIcon {
   margin-right: 10px;
+}
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.loadingVideo {
+  width: 300px;
+  height: auto;
+  margin-top: 20px;
 }

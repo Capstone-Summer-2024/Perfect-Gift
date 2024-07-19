@@ -1,58 +1,41 @@
-// prev nav bar components, will get used after user sign up
-// import "./NavBar.css";
-// import LoginLogo from "../assets/LoginLogo.png";
-// import DropdownLogo from "../assets/DropdownLogo.png";
-
-// function NavBar() {
-//   return (
-//     <header className="NavBar">
-//       <span
-//         style={{ fontSize: "2rem", fontWeight: "bold", fontStyle: "normal" }}
-//       >
-//         Perfect Gift
-//       </span>
-
-//       <p1 class="NavButtons">
-//         <DropdownButton />
-//         <HeaderLoginButton />
-//       </p1>
-//     </header>
-//   );
-// }
-
-// function DropdownButton() {
-//   return (
-//     <input
-//       className="HeaderDropdownButton"
-//       type="image"
-//       src={DropdownLogo}
-//       alt="Dropdown Button"
-//       width="75"
-//       height="60"
-//     />
-//   );
-// }
-
-// function HeaderLoginButton() {
-//   return (
-//     <input
-//       className="HeaderLoginButton"
-//       type="image"
-//       src={LoginLogo}
-//       alt="Login Button"
-//       width="65"
-//       height="65"
-//     />
-//   );
-// }
-
-// export default NavBar;
-
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../config/firebaseConfig";
+import { signOut } from "firebase/auth";
 import styles from "./NavBar.module.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      const fetchUserName = async () => {
+        const name = await getUserNameFromDatabase(user.uid);
+        setUserName(name);
+      };
+      fetchUserName();
+    }
+  }, [user]);
+
+  const handleSignupClick = (event) => {
+    event.preventDefault();
+    navigate("/register-login?mode=signup");
+  };
+
+  const handleLoginClick = (event) => {
+    event.preventDefault();
+    navigate("/register-login?mode=login");
+  };
+
+  const handleSignOutClick = () => {
+    signOut(auth).then(() => {
+      navigate("/");
+    });
+  };
+
   return (
     <header className={styles.navbar}>
       <div className={styles.navbarLogo}>
@@ -60,14 +43,33 @@ const Navbar = () => {
           <h1>PerfectGift</h1>
         </Link>
       </div>
+      {user && (
+        <div className={styles.navbarGreeting}>
+          <span>Hello, {userName}</span>
+        </div>
+      )}
       <nav className={styles.navbarLinks}>
         <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/login">Signup</Link>
+        {user ? (
+          <button onClick={handleSignOutClick} className={styles.navbarLink}>Sign Out</button>
+        ) : (
+          <>
+            <a href="/register-login?mode=login" onClick={handleLoginClick} className={styles.navbarLink}>
+              Login
+            </a>
+            <a href="/register-login?mode=signup" onClick={handleSignupClick} className={styles.navbarLink}>
+              Signup
+            </a>
+          </>
+        )}
       </nav>
     </header>
   );
+};
+
+const getUserNameFromDatabase = async (uid) => {
+  // Implement this function to fetch the user's name from your database
+  return "User"; // Placeholder
 };
 
 export default Navbar;
