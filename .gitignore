@@ -14,3 +14,4 @@ frontend/.pnp.js
 frontend/coverage
 frontend/build
 frontend/*.local
+frontend/my-app/.env
