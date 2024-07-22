@@ -1,56 +1,150 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
+import ProductGrid from "../components/ProductGrid";
+import { getAuth, onAuthStateChanged, verifyBeforeUpdateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    
+    const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [user, setUser] = useState(null);
 
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        console.log('Updating account info:', { email, password });
-        if(newEmail !== null && newEmail !== ""){ 
-            setEmail(newEmail);
-            alert('Updated account information successfully!');
-        }
-        if(newPassword !== null && newPassword !== ""){ 
-            setPassword(newPassword);
-            alert('Updated account information successfully!');
+    const navigate = useNavigate();
+    const auth = getAuth();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+            } else {
+                console.error('No user is currently logged in.');
+                navigate('/');
+            }
+        });
+
+        return () => unsubscribe();
+    }, [auth, navigate]);
+
+    const reauthenticate = async (currentPassword) => {
+        try {
+            const user = auth.currentUser;
+            const credential = EmailAuthProvider.credential(user.email, currentPassword);
+            await reauthenticateWithCredential(user, credential);
+        } catch (error) {
+            setError(error.message);
+            throw error;
         }
     };
 
-    const handleLogout = () => {
-        console.log('Logging out...');
-        alert('Logged out successfully!');
-    };    
+    const handleUpdate = async (event) => {
+        event.preventDefault();
+
+        if (!newEmail && !newPassword) {
+            alert('Please provide a new email or new password to update.');
+            return;
+        }
+
+        if (user) {
+            try {
+                await reauthenticate(currentPassword);
+            } catch (error) {
+                setError(error.message);
+                alert('Your current password may be incorrect. Please provide your current password for updating any account information');
+                return;
+            }
+            
+            //Update email
+            if (newEmail && newEmail !== '') {
+                try {
+                    await verifyBeforeUpdateEmail(user, newEmail);
+                    alert('Please go to your new email to verify the address. Your email will update once it is verified');
+                } catch (error) {
+                    setError(error.message);
+                    alert('Failed to update email. You may need to verify your email address before updating.');
+                    sendEmailVerification(user);
+                }
+            }
+
+            //Update password
+            if (newPassword && newPassword !== '') {
+                try {
+                    await updatePassword(user, newPassword);
+                    alert('Updated password successfully!');
+                } catch (error) {
+                    setError(error.message);
+                    alert('Failed to update password.');
+                    return;
+                }
+                
+            }
+
+            // Refetch user info after updates
+            await user.reload();
+            setUser(auth.currentUser);
+        } else {
+            alert('No user is currently logged in.');
+            navigate('/');
+        }
+
+        document.getElementById('accountForm').reset();
+    };
 
     return (
-        <div className={styles.container}>
-            <h2>Account Settings</h2>
-            
-            <p>If you would like to see your favorites click the button below</p>
-            <Link to= "/product-grid">
-                <button className={styles.favoriteButton}>Go To Favorites</button>
-            </Link> 
-            
-            <form id="accountForm" onSubmit={handleUpdate}>
-                <label type="password" for="email">Current Email: {email}</label>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder=" EMAIL" onChange={(e) => setNewEmail(e.target.value)}/>
-                
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder=" PASSWORD" onChange={(e) => setNewPassword(e.target.value)}/>
+        <div>
+            <form id="accountForm" onSubmit={handleUpdate} className={styles.container}>
+                <h2>Account Settings</h2>
 
+                <label htmlFor="accountForm" className={styles.passDisc}>
+                    To Update either your email or password, please provide your current password.
+                </label>
+
+                <label htmlFor="password">Current Password:</label>
+                <input
+                    type={showPassword ? "text" : "password"}
+                    id="currentPassword"
+                    name="password"
+                    placeholder=" CURRENT PASSWORD"
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                />
+
+                <label htmlFor="email">Update Email:</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder=" EMAIL"
+                    onChange={(e) => setNewEmail(e.target.value)}
+                />
+                
+                <label htmlFor="password">New Password:</label>
+                <input
+                    type={showPassword ? "text" : "password"}
+                    id="newPassword"
+                    name="password"
+                    placeholder=" NEW PASSWORD"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                />
+                
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={showPassword}
+                        onChange={() => setShowPassword(!showPassword)}
+                        className={styles.checkbox}
+                    />
+                    Reveal Password
+                </label>
+
+                {error && <p className={styles.error}>{error}</p>}
                 <button type="submit">Update</button>
             </form>
-            <Link to= "/">
-                <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
-            </Link>
+            <ProductGrid />
         </div>
     );
 };
 
-export default Dashboard;  
+export default Dashboard;

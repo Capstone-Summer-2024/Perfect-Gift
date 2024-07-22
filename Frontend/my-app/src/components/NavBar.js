@@ -5,16 +5,16 @@ import { auth } from "../config/firebaseConfig";
 import { signOut } from "firebase/auth";
 import styles from "./NavBar.module.css";
 
-const Navbar = ({ userUid }) => {
+const Navbar = () => {
   const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    if (userUid) {
-      fetchUserName(userUid);
+    if (user) {
+      fetchUserName(user.uid);
     }
-  }, [userUid]);
+  }, [user]);
 
   const fetchUserName = async (uid) => {
     const name = await getUserNameFromDatabase(uid);

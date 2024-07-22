@@ -36,6 +36,8 @@ const LoginSignup = ({ onAuthChange }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      user.sendEmailVerification();
+      alert('Your Account has been created! Please check your email to verify it. The email can be located in your junk folder.');
       const db = getFirestore();
       await setDoc(doc(db, "users", user.uid), {
         email,
