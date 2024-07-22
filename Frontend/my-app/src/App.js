@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginSignup from "./pages/LoginSignup";
@@ -10,14 +10,19 @@ import FavoritesPage from "./pages/FavoritesPage";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
+  const [userUid, setUserUid] = useState(null);
+
+  const handleAuthChange = (uid) => {
+    setUserUid(uid);
+  };
+
   return (
     <Router>
-      <Navbar />
+      <Navbar userUid={userUid} />
       <div className="pages">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<div>About Page</div>} />
-          <Route path="/register-login" element={<LoginSignup />} />
+          <Route path="/register-login" element={<LoginSignup onAuthChange={handleAuthChange} />} />
           <Route path="/collect-info" element={<MultiStepForm />} />
           <Route path="/gift-items" element={<ProductList />} />
           <Route

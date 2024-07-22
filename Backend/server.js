@@ -2,9 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 const bcrypt = require('bcrypt');
-const { auth } = require('./firebaseAdmin'); // Import Firebase admin
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { auth, db } = require('./firebaseAdmin');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -65,23 +65,28 @@ app.post('/submit', async (req, res) => {
 });
 
 // User registration
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   const { email, password, name } = req.body;
-  bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+  bcrypt.hash(password, saltRounds, async (err, hashedPassword) => {
     if (err) {
       console.error('Error hashing password:', err);
       res.status(500).send('Error hashing password');
       return;
     }
 
-    auth.createUser({ email, password })
-      .then(userRecord => {
-        res.status(201).json({ message: 'User registered successfully', userRecord });
-      })
-      .catch(error => {
-        console.error('Error creating user:', error);
-        res.status(500).json({ error: error.message });
+    try {
+      const userRecord = await auth.createUser({ email, password });
+      await db.collection('users').doc(userRecord.uid).set({
+        name,
+        email,
+        password: hashedPassword,
+        uid: userRecord.uid,
       });
+      res.status(201).json({ message: 'User registered successfully', userRecord });
+    } catch (error) {
+      console.error('Error creating user or saving to Firestore:', error);
+      res.status(500).json({ error: error.message });
+    }
   });
 });
 
@@ -112,6 +117,20 @@ app.post('/login', (req, res) => {
       console.error('Error fetching user:', error);
       res.status(500).json({ error: error.message });
     });
+});
+
+app.get('/user/:uid', async (req, res) => {
+  const { uid } = req.params;
+  try {
+    const userDoc = await db.collection('users').doc(uid).get();
+    if (!userDoc.exists) {
+      return res.status(404).send('User not found');
+    }
+    res.status(200).json({ name: userDoc.data().fullname});
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).send('Error fetching user data');
+  }
 });
 
 app.use('/api/gifts', giftRoutes);
