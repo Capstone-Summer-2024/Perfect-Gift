@@ -5,20 +5,21 @@ import { auth } from "../config/firebaseConfig";
 import { signOut } from "firebase/auth";
 import styles from "./NavBar.module.css";
 
-const Navbar = () => {
+const Navbar = ({ userUid }) => {
   const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    if (user) {
-      const fetchUserName = async () => {
-        const name = await getUserNameFromDatabase(user.uid);
-        setUserName(name);
-      };
-      fetchUserName();
+    if (userUid) {
+      fetchUserName(userUid);
     }
-  }, [user]);
+  }, [userUid]);
+
+  const fetchUserName = async (uid) => {
+    const name = await getUserNameFromDatabase(uid);
+    setUserName(name);
+  };
 
   const handleSignupClick = (event) => {
     event.preventDefault();
@@ -51,7 +52,10 @@ const Navbar = () => {
       <nav className={styles.navbarLinks}>
         <Link to="/">Home</Link>
         {user ? (
-          <button onClick={handleSignOutClick} className={styles.navbarLink}>Sign Out</button>
+          <>
+            <Link to="/dashboard" className={styles.navbarLink}>Dashboard</Link>
+            <button onClick={handleSignOutClick} className={styles.navbarLink}>Sign Out</button>
+          </>
         ) : (
           <>
             <a href="/register-login?mode=login" onClick={handleLoginClick} className={styles.navbarLink}>
@@ -68,8 +72,17 @@ const Navbar = () => {
 };
 
 const getUserNameFromDatabase = async (uid) => {
-  // Implement this function to fetch the user's name from your database
-  return "User"; // Placeholder
+  try {
+    const response = await fetch(`http://localhost:5001/user/${uid}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data.name;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return "User";
+  }
 };
 
 export default Navbar;

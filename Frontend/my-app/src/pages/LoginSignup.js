@@ -5,7 +5,7 @@ import { auth } from "../config/firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
-const LoginSignup = () => {
+const LoginSignup = ({ onAuthChange }) => {
   const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,18 +39,24 @@ const LoginSignup = () => {
       const db = getFirestore();
       await setDoc(doc(db, "users", user.uid), {
         email,
-        fullname
+        fullname,
       });
-      navigate("/");
+      if (onAuthChange) onAuthChange(user.uid); // Trigger callback to fetch user name
+      setTimeout(() => {
+        navigate("/");
+      }, 500); // Adjust the delay as needed
     } catch (error) {
       setError(error.message);
     }
   };
-  
+
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (onAuthChange) onAuthChange(userCredential.user.uid); // Trigger callback to fetch user name
+      setTimeout(() => {
+        navigate("/");
+      }, 500); // Adjust the delay as needed
     } catch (error) {
       setError(error.message);
     }
@@ -84,8 +90,8 @@ const LoginSignup = () => {
           <div className={`${styles.login} ${isSignup ? styles.hide : ""}`}>
             <h2>LOG IN</h2>
             <div className={styles.inputbox}>
-              <input type="text" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type="text" name="email" placeholder="  EMAIL" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" name="password" placeholder="  PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <p>FORGET PASSWORD?</p>
             <button onClick={handleLogin}>LOG IN</button>
@@ -95,9 +101,9 @@ const LoginSignup = () => {
           <div className={`${styles.signup} ${isSignup ? "" : styles.hide}`}>
             <h2>SIGN UP</h2>
             <div className={styles.inputbox}>
-              <input type="text" name="fullname" placeholder="Full Name" value={fullname} onChange={(e) => setFullname(e.target.value)} />
-              <input type="text" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type="password" name="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type="text" name="fullname" placeholder="  FULLNAME" value={fullname} onChange={(e) => setFullname(e.target.value)} />
+              <input type="text" name="email" placeholder="  EMAIL" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" name="password" placeholder="  PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <button onClick={handleSignup}>SIGN UP</button>
             {error && <p className={styles.error}>{error}</p>}
