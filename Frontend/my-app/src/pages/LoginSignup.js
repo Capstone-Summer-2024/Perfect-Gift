@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./LoginSignup.module.css";
 import { auth } from "../config/firebaseConfig";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const LoginSignup = ({ onAuthChange }) => {
@@ -36,7 +36,7 @@ const LoginSignup = ({ onAuthChange }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      user.sendEmailVerification();
+      await sendEmailVerification(user);
       alert('Your Account has been created! Please check your email to verify it. The email can be located in your junk folder.');
       const db = getFirestore();
       await setDoc(doc(db, "users", user.uid), {
