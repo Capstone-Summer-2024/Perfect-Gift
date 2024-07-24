@@ -33,7 +33,10 @@ const createGift = async (req, res) => {
 
   try {
     // prompt for OpenAI
-    const userPrompt = `generate 5 questions based on the following input from gift giver to narrow down their gift choice selection based on the gift recipient - Gender: ${gender}\nAge: ${age}\nOccasion:${occasion}\nRelation:${relation}\nBudget: ${budget}\nInterests: ${interests}".`;
+    const userPrompt = `generate 5 questions based on the following input from gift giver to narrow 
+    down their gift choice selection based 
+    on the gift recipient - Gender: ${gender}\nAge: ${age}\nOccasion:${occasion}\nRelation:${relation}\nBudget:
+     ${budget}\nInterests: ${interests}".`;
 
     const openaiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -175,9 +178,10 @@ const updateGiftAnswers = async (req, res) => {
   }
 };
 
-// // Function to fetch products from RapidAPI
 // const fetchProducts = async (req, res) => {
-//   const { query } = req.query; // Get the search query from the request
+//   const { query } = req.query;
+
+//   console.log("Query Parameter:", query); // Log the query parameter
 
 //   if (!query) {
 //     return res.status(400).json({ error: "Query parameter is required" });
@@ -199,12 +203,14 @@ const updateGiftAnswers = async (req, res) => {
 //     }
 
 //     const data = await response.json();
-//     res.status(200).json(data);
+//     console.log("API Response Data:", data); // Log the response data to verify structure
+//     res.status(200).json({ products: data.data.products || [] }); // Ensure 'data.data.products' matches the actual API response structure
 //   } catch (error) {
 //     console.error("Error fetching products:", error);
 //     res.status(500).json({ error: "Failed to fetch products" });
 //   }
 // };
+
 const fetchProducts = async (req, res) => {
   const { query } = req.query;
 
@@ -231,7 +237,14 @@ const fetchProducts = async (req, res) => {
 
     const data = await response.json();
     console.log("API Response Data:", data); // Log the response data to verify structure
-    res.status(200).json({ products: data.data.products || [] }); // Ensure 'data.data.products' matches the actual API response structure
+
+    const products = data.data.products || [];
+
+    if (products.length === 0) {
+      console.log("No products found for the query:", query);
+    }
+
+    res.status(200).json({ products });
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({ error: "Failed to fetch products" });
