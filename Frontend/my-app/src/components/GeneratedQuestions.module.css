@@ -1,19 +1,20 @@
 .formContainer {
-  width: 70%;
+  width: 80%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .questionContainer {
   margin: 15px 0;
 }
 
-input {
-  width: 100%;
+.formContainer input {
+  width: 80%;
   padding: 8px;
   margin-top: 5px;
   border: 1px solid #ccc;

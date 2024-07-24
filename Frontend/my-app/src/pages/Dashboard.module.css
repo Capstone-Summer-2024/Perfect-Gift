@@ -1,71 +1,70 @@
 /* Dashboard.module.css */
 
 .dashboardContainer {
-    padding: 20px;
-    background-color: #2b2b2b; /* Dark grey background */
-    color: #fff; /* White text color */
-    min-height: 100vh;
-  }
-  
-  .container {
-    background-color: #444;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    width: 400px;
-    text-align: center;
-    margin: auto;
-    margin-top: 50px;
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    margin-bottom: 5px;
-  }
-  
-  input {
-    margin-bottom: 15px;
-    padding: 8px;
-    border: 1px solid #666;
-    border-radius: 3px;
-    background-color: #555;
-    color: #fff;
-  }
-  
-  .passDisc {
-    margin: auto;
-  }
-  
-  .checkbox {
-    padding: auto;
-    margin: auto;
-    margin-bottom: 10px;
-    width: 40px;
-  }
-  
-  .error {
-    color: #d9534f; /* Bootstrap error color */
-  }
-  
-  .updateButton {
-    background-color: #28a745; /* Bootstrap success color */
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .updateButton:hover {
-    background-color: #218838;
-  }
-  
+  padding: 20px;
+  background-color: #2b2b2b; /* Dark grey background */
+  color: #fff; /* White text color */
+  min-height: 100vh;
+}
+
+.container {
+  background-color: #444;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  text-align: center;
+  margin: auto;
+  margin-top: 50px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+.dashboardContainer input {
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #666;
+  border-radius: 3px;
+  background-color: #555;
+  color: #fff;
+}
+
+.passDisc {
+  margin: auto;
+}
+
+.checkbox {
+  padding: auto;
+  margin: auto;
+  margin-bottom: 10px;
+  width: 40px;
+}
+
+.error {
+  color: #d9534f; /* Bootstrap error color */
+}
+
+.updateButton {
+  background-color: #28a745; /* Bootstrap success color */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.updateButton:hover {
+  background-color: #218838;
+}

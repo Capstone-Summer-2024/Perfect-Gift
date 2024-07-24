@@ -1,4 +1,3 @@
-// ProductList.js
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import styles from "./ProductList.module.css";
@@ -6,6 +5,7 @@ import RateProduct from "./RateProduct";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../config/firebaseConfig";
 import { getFirestore, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import PopupWarning from "./PopupWarning";
 
 const ProductList = ({ query, onBack }) => {
   const [products, setProducts] = useState([]);
@@ -13,6 +13,8 @@ const ProductList = ({ query, onBack }) => {
   const [maxPrice, setMaxPrice] = useState(5000); // Set initial max price to a reasonable default value
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [user] = useAuthState(auth);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -66,11 +68,17 @@ const ProductList = ({ query, onBack }) => {
         await updateDoc(userRef, {
           favorites: arrayUnion(product),
         });
+        setPopupMessage("Product added to favorites");
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
         console.log("Added to favorites:", product);
       } catch (error) {
         console.error("Error adding to favorites:", error);
       }
     } else {
+      setPopupMessage("Please log in to add items to favorites");
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
       console.log("User not authenticated");
     }
   };
@@ -93,7 +101,7 @@ const ProductList = ({ query, onBack }) => {
               className={styles.priceSlider}
             />
           </div>
-          <RateProduct /> {/* Add RateProduct component */}
+          <RateProduct />
         </div>
       </div>
       {loading ? (
@@ -113,6 +121,7 @@ const ProductList = ({ query, onBack }) => {
           )}
         </div>
       )}
+      <PopupWarning message={popupMessage} show={showPopup} />
     </div>
   );
 };
