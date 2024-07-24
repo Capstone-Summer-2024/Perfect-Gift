@@ -145,7 +145,6 @@ const MultiStepForm = () => {
         <ProductList query={selectedGiftItem} onBack={handleBack} />
       ) : !showQuestions && suggestedItems.length === 0 ? (
         <div className={styles.formContainer}>
-          <h3>Step {step}</h3>
           <div className={styles.progressBarContainer}>
             <div
               className={styles.progressBar}
@@ -154,6 +153,7 @@ const MultiStepForm = () => {
           </div>
           {step === 1 && (
             <div>
+              <h3>Step 1: Select Gender</h3>
               <div className={styles.selectionButtonContainer}>
                 <UserSelectionButton
                   selection="Male"
@@ -186,6 +186,7 @@ const MultiStepForm = () => {
           )}
           {step === 2 && (
             <div>
+              <h3>Step 2: Select Age</h3>
               <div className={styles.sliderContainer}>
                 <label>Age: {formData.age}</label>
                 <input
@@ -207,6 +208,7 @@ const MultiStepForm = () => {
           )}
           {step === 3 && (
             <div>
+              <h3>Step 3: Who Are You Getting It For?</h3>
               <div className={styles.selectionButtonContainer}>
                 <UserSelectionButton
                   selection="Coworker"
@@ -245,6 +247,7 @@ const MultiStepForm = () => {
           )}
           {step === 4 && (
             <div>
+              <h3>Step 4: What's the Occasion</h3>
               <div className={styles.selectionButtonContainer}>
                 <UserSelectionButton
                   selection="Birthday"
@@ -296,25 +299,28 @@ const MultiStepForm = () => {
             </div>
           )}
           {step === 5 && (
-            <div className={styles.labelContainer}>
-              <label>
-                Type any interest known or just type I don't know
-                <input
-                  type="text"
-                  name="interests"
-                  value={formData.interests || ""}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Type in your Budget for the gift
-                <input
-                  type="number"
-                  name="budget"
-                  value={formData.budget || ""}
-                  onChange={handleChange}
-                />
-              </label>
+            <div>
+              <h3>Step 5: Interests for recipient and Budget</h3>
+              <div className={styles.labelContainer}>
+                <label>
+                  Type any interest known for your gift recipient
+                  <input
+                    type="text"
+                    name="interests"
+                    value={formData.interests || ""}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Type in your budget for the gift
+                  <input
+                    type="number"
+                    name="budget"
+                    value={formData.budget || ""}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
               <div className={styles.buttonContainer}>
                 <button onClick={prevStep}>Back</button>
                 <button onClick={handleSubmit}>Submit</button>
