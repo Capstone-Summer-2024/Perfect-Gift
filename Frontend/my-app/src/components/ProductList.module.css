@@ -1,3 +1,4 @@
+/* ProductList.module.css */
 .productListContainer {
   display: flex;
   flex-direction: column;
@@ -27,15 +28,22 @@
   background-color: #0056b3;
 }
 
+.controlGroup {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
 .sliderContainer {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-right: 200px;
 }
 
 .sliderContainer label {
-  margin-right: 20px;
+  margin-right: 10px;
 }
+
 .priceSlider {
   width: 200px;
 }
