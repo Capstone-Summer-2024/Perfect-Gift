@@ -153,7 +153,7 @@ const MultiStepForm = () => {
           </div>
           {step === 1 && (
             <div>
-              <h3>Step 1: Select Gender</h3>
+              <h3>Step 1: Select a Gender</h3>
               <div className={styles.selectionButtonContainer}>
                 <UserSelectionButton
                   selection="Male"
