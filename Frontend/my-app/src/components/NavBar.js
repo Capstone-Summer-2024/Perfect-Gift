@@ -44,11 +44,13 @@ const Navbar = () => {
           <h1>PerfectGift</h1>
         </Link>
       </div>
-      {user && (
-        <div className={styles.navbarGreeting}>
-          <span>Hello, {userName}</span>
-        </div>
-      )}
+      <div className={styles.navbarGreetingContainer}>
+        {user && (
+          <div className={styles.navbarGreeting}>
+            <span>Hello, {userName}</span>
+          </div>
+        )}
+      </div>
       <nav className={styles.navbarLinks}>
         <Link to="/">Home</Link>
         {user ? (
