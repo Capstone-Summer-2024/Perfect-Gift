@@ -168,8 +168,11 @@ To deploy the backend server, you can use services like Heroku, AWS, or Google C
 To deploy the frontend application, you can use services like Vercel, Netlify, or GitHub Pages.
 
 ## Screenshots
-
-_Add your screenshots here_
+![Screenshot 2024-07-25 205125](https://github.com/user-attachments/assets/c65b4d9b-cd06-4aca-b016-c7e4b79fbb5a)
+![Screenshot 2024-07-25 205133](https://github.com/user-attachments/assets/e267196f-ca31-46d2-b62f-38dc985006fe)
+![Screenshot 2024-07-25 205202](https://github.com/user-attachments/assets/8a1fa9ba-1207-40a0-a862-6c5c8b555ded)
+![Screenshot 2024-07-25 205214](https://github.com/user-attachments/assets/03888e82-d622-4fd1-9935-e7a4d10d5417)
+![Screenshot 2024-07-25 205223](https://github.com/user-attachments/assets/da8a72dc-cbf2-48df-93d0-c7ecaffa0d80)
 
 ## Features
 
