@@ -11,7 +11,6 @@ The Perfect Gift web application is designed to help users find the perfect gift
 - [Project Structure](#project-structure)
 - [Backend Setup](#backend-setup)
 - [Frontend Setup](#frontend-setup)
-- [Deployment](#deployment)
 - [Screenshots](#screenshots)
 - [Features](#features)
 - [Acknowledgements](#Acknowledgements)
@@ -156,16 +155,6 @@ Frontend/my-app/
    cd Frontend/my-app
    npm start
    ```
-
-## Deployment
-
-### Backend
-
-To deploy the backend server, you can use services like Heroku, AWS, or Google Cloud.
-
-### Frontend
-
-To deploy the frontend application, you can use services like Vercel, Netlify, or GitHub Pages.
 
 ## Screenshots
 ![Screenshot 2024-07-25 205125](https://github.com/user-attachments/assets/c65b4d9b-cd06-4aca-b016-c7e4b79fbb5a)
